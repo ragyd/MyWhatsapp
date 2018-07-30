@@ -36,7 +36,14 @@ export default {
 							'rrrrrrrr rrrrrrrrrrrr ffffffffffffffff',
 							'kjlsad laksdj dslkajsd sadkljsda djashd asdlkdas dklasdj sad'					
 						]
-					}	
+					},
+					{
+						chatId : 4,
+						Messages: [
+							'Hi',
+							'How are you?'					
+						]
+					}
 				]	
 		})
 	}

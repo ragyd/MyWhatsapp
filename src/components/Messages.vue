@@ -28,8 +28,8 @@ export default {
   , 
   methods: {
 	  getMessages() {
-        let chatId = 1;        
-	  		//let chatId = localStorage.getItem('chatId') !== undefined ? localStorage.getItem('chatId') : 1;        
+        //let chatId = 1;        
+	  		let chatId = JSON.parse(localStorage.getItem('chatId'));        
 		  	Messages.getMessages(chatId)
 		    .then(data => {
 		      if(data.Success === true) {
