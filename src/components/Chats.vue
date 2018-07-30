@@ -1,7 +1,7 @@
 <template>
   <div class="chats tabcontent">
-    <div class="card-status" v-for="chat in chats">
-      <div @click="goToMessages(chat.Id)">
+    <div v-for="chat in chats">
+      <div class="card-status" @click="goToMessages(chat.Id)">
         <div class="profile-column"><img src="../imgs/group.png" class="profile"></div>
         <div class="descrip-column">
           <div class="title-card"><strong>{{chat.Username}}</strong></div>
@@ -46,7 +46,8 @@ export default {
     },
     goToMessages: function (chatId) {
       localStorage.setItem('chatId',chatId);
-      window.location.href='/#messages?chatId='+chatId;
+      //window.location.href='/#messages?chatId='+chatId;
+      this.$router.push('/messages?chatId='+chatId)
     }    
   }
 
