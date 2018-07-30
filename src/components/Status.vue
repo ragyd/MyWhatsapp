@@ -8,42 +8,58 @@
     	</div>
     </div>
     <h4 class="text-title">Recent updates</h4>
-    <div class="card-status">
-    	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
-    	<div class="descrip-column">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"><label>Just Now, 18:28</label></div>
-    	</div>
-    </div>
-    <div class="card-status">
-    	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
-    	<div class="descrip-column des-final">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"><label>Just Now, 16:28</label></div>
-    	</div>
-    </div>   
+    <div class="card-status"  v-for="state in status" v-if="state.Viewed==true">
+      <div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
+      <div class="descrip-column">
+        <div class="title-card"><strong>{{state.Username}}</strong></div>
+        <div class="detail-card"><label>{{state.Datetime}}</label></div>
+      </div>
+    </div>  
     <h4 class="text-title">Viewed updates</h4>
-    <div class="card-status">
-    	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
-    	<div class="descrip-column">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"><label>Just Now, 18:28</label></div>
-    	</div>
+    <div class="card-status"  v-for="state in status" v-if="state.Viewed==false">
+      <div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
+      <div class="descrip-column">
+        <div class="title-card"><strong>{{state.Username}}</strong></div>
+        <div class="detail-card"><label>{{state.Datetime}}</label></div>
+      </div>
     </div>
-    <div class="card-status">
-    	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
-    	<div class="descrip-column des-final">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"><label>Just Now, 16:28</label></div>
-    	</div>
-    </div> 
-     <div class="bottom-icon"><img src="../imgs/my-status.png" class="profile"></div>
+    <div class="bottom-icon"><img src="../imgs/my-status.png" class="profile"></div>
   </div>
 </template>
 
 <script>
+import Status from '../services/status';
 export default {
-  name: 'status'
+  name: 'status',
+  mounted() {
+    this.getStatus();
+  },
+  data() {
+    return {
+      status: ''
+    }
+  }, 
+  methods: {
+    getStatus() {
+      const userId = 1;
+
+      Status.getStatus(userId)
+        .then(data => {
+          console.log(data);
+          if(data['Success'] === true) {
+            console.log(data['Message']);           
+            this.status = data.Data.Status;
+          } else {
+            console.log(data['Message']);
+            alert(data['Message']);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          alert(error);
+        })
+    }
+  }  
 };
 </script>
 

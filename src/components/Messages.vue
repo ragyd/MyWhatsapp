@@ -28,14 +28,15 @@ export default {
   , 
   methods: {
 	  getMessages() {
-	  		const chatId = 1;
-
+        let chatId = 1;        
+	  		//let chatId = localStorage.getItem('chatId') !== undefined ? localStorage.getItem('chatId') : 1;        
 		  	Messages.getMessages(chatId)
 		    .then(data => {
-		      console.log(data);
-		      if(data['Success'] === true) {
-		        console.log(data['Message']);		        
-		        this.messages = data.Data.Messages;
+		      if(data.Success === true) {
+		          let res = data.Data.find(function(element){
+                return element.chatId === chatId;
+              });
+              this.messages = res.Messages;
 		      } else {
 		        console.log(data['Message']);
 		        alert(data['Message']);
@@ -45,8 +46,8 @@ export default {
 		      console.log(error);
 		      alert(error);
 		    })
-		}
-	} 
+		},
+	}
 };
 </script>
 <style>

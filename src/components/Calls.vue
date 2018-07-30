@@ -1,33 +1,53 @@
 <template>
   <div class="calls tabcontent">    
-    <div class="card-status">
+    <div class="card-status" v-for="call in calls">
     	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
     	<div class="descrip-column">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"> <span class="received-call">/</span> <label>2 minutes ago, 18:28</label></div>
+    		<div class="title-card"><strong>{{call.Username}}</strong></div>
+    		<div class="detail-card"> 
+                <span v-if="call.Status == 'received'" class="received-call">/</span> 
+                <span v-if="call.Status == 'lost'" class="lost-call">/</span> 
+                <span v-if="call.Status == 'answered'" class="my-call">/</span> 
+                <label>{{call.Datetime}}</label></div>
     	</div>
     </div>
-    <div class="card-status">
-    	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
-    	<div class="descrip-column">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"> <span class="my-call">/</span> <label>2 hours ago, 18:28</label></div>
-    	</div>
-    </div>    
-    <div class="card-status">
-    	<div class="profile-column"><img src="../imgs/profile.png" class="profile"></div>
-    	<div class="descrip-column des-final">
-    		<div class="title-card"><strong>User Name</strong></div>
-    		<div class="detail-card"> <span class="lost-call">/</span> <label>Today, 16:28</label></div>
-    	</div>
-    </div> 
     <div class="bottom-icon"><img src="../imgs/my-call.jpg" class="profile"></div>
   </div>
 </template>
 
 <script>
+import Calls from '../services/calls';
 export default {
-  name: 'calls'
+  name: 'calls',
+  mounted() {
+    this.getCalls();
+  },
+  data() {
+    return {
+      calls: ''
+    }
+  }, 
+  methods: {
+    getCalls() {
+      const userId = 1;
+
+      Calls.getCalls(userId)
+        .then(data => {
+          console.log(data);
+          if(data['Success'] === true) {
+            console.log(data['Message']);           
+            this.calls = data.Data.Calls;
+          } else {
+            console.log(data['Message']);
+            alert(data['Message']);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          alert(error);
+        })
+    }
+  }
 };
 </script>
 
